@@ -2,25 +2,12 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>New Tab</title>
-    <link rel="stylesheet" href="styles.css" />
+    <title>Custom New Tab</title>
+    <script src="libs/react.production.min.js"></script>
+    <script src="libs/react-dom.production.min.js"></script>
   </head>
   <body>
-    <div id="content">
-      <!-- Search bar -->
-      <header>
-        <input type="text" id="search" placeholder="Search or enter address" />
-      </header>
-
-      <!-- Top sites placeholder -->
-      <section id="top-sites">
-        <p>Your top sites will appear here.</p>
-      </section>
-
-      <!-- Button to change wallpaper -->
-      <button id="change-wallpaper">Change Wallpaper</button>
-    </div>
-
-    <script src="script.js"></script>
+    <div id="root"></div>
+    <script src="index.js"></script>
   </body>
 </html>
