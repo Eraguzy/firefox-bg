@@ -1,0 +1,44 @@
+body {
+  background-color: rgb(79, 30, 59);
+}
+
+.background {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.searchWrapper {
+  display: flex;
+  align-items: center;
+  padding-top: 20vh;
+}
+
+.fileButton {
+  padding: 1em 2em;
+  font-size: 0.7em;
+  cursor: pointer;
+  background: #0078d7;
+  color: white;
+  border: none;
+  border-radius: 1em;
+  margin-top: 2%;
+}
+
+.firefoxLogo {
+  background: url("chrome://branding/content/about-logo.png") no-repeat center;
+  background-size: contain;
+  height: 10vh;
+  width: 10vh;
+}
+
+.firefoxWordmark {
+  background: url("chrome://branding/content/firefox-wordmark.svg") no-repeat
+    center center;
+  background-size: contain;
+  margin-inline-start: 1vw;
+  height: 10vh;
+  width: 16vh;
+}
