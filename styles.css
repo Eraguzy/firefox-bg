@@ -1,44 +1,114 @@
 body {
   background-color: rgb(79, 30, 59);
+  /* test */
 }
 
-.background {
-  height: 100%;
+
+
+/* main containers */
+.root {
+  height: calc(100vh - 15vh);
+  padding-top: 15vh;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+}
+
+.middleWrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  gap: 15px;
 }
 
+
+
+/* search inputs */
 .searchWrapper {
   display: flex;
-  align-items: center;
-  padding-top: 20vh;
+  border: none;
+  border-radius: 10px;
+  width: 500px;
+  max-width: 90vw;
+  overflow: hidden;
 }
 
-.fileButton {
-  padding: 1em 2em;
-  font-size: 0.7em;
+.searchInput {
+  background-color: white;
+  flex-grow: 1;
+  padding: 10px;
+  font-size: 1em;
+  border: none;
+  transition: opacity, color 0.2s ease;
+}
+
+.searchInput:hover::placeholder {
+  opacity: 1;
+  color: black;
+}
+
+.searchButton {
+  background-color: black;
+  border: none;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  transform: scale(1);
+  transition: transform 0.3s ease, background-color 0.1s ease;
+}
+
+.searchButton:hover {
+  transform: scale(1.03);
+  background-color: #232323;
+}
+
+.searchIcon {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  transform: scale(0.76);
+  filter: invert(1);
+}
+
+
+/* file management */
+.newFileButton {
+  width: 160px;
+  padding: 10px 20px;
+  font-size: 10px;
   cursor: pointer;
   background: #0078d7;
   color: white;
   border: none;
-  border-radius: 1em;
-  margin-top: 2%;
+  border-radius: 10px;
+}
+
+
+
+/* firefox logos */
+.logoWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+  transform: scale(0.6);
 }
 
 .firefoxLogo {
   background: url("chrome://branding/content/about-logo.png") no-repeat center;
+  /* doesnt crop when changing the px size */
   background-size: contain;
-  height: 10vh;
-  width: 10vh;
+  height: 100px;
+  width: 100px;
 }
 
 .firefoxWordmark {
-  background: url("chrome://branding/content/firefox-wordmark.svg") no-repeat
-    center center;
+  background: url("chrome://branding/content/firefox-wordmark.svg") no-repeat center center;
   background-size: contain;
-  margin-inline-start: 1vw;
-  height: 10vh;
-  width: 16vh;
+  width: 172px;
+  height: 42px;
 }

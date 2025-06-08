@@ -1,16 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Custom New Tab</title>
-    <!-- please add "content_security_policy": "script-src 'self' https://unpkg.com; object-src 'self'" to allow CDN imports-->
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script src="index.js"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <title>Custom New Tab</title>
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div>
+    <div class="root">
+
+      <div class="middleWrapper">
+        <div class="logoWrapper">
+          <div class="firefoxLogo"></div>
+          <div class="firefoxWordmark"></div>
+        </div>
+
+        <div class="searchWrapper">
+          <input type="search" class="searchInput" placeholder="Search..." />
+          <button class="searchButton"><img src="icons/searchIcon.png" alt="search icon" class="searchIcon" /></button>
+        </div>
+
+        <button class="newFileButton">
+          Add New Wallpaper
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="index.js"></script>
+</body>
+
 </html>
