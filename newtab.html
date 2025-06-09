@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Custom New Tab</title>
-
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
 
@@ -18,10 +18,16 @@
           <div class="firefoxWordmark"></div>
         </div>
 
-        <div class="searchWrapper">
-          <input type="search" class="searchInput" placeholder="Search..." />
-          <button class="searchButton"><img src="icons/searchIcon.png" alt="search icon" class="searchIcon" /></button>
-        </div>
+        <form action="https://www.google.com/search" method="GET">
+          <div class="searchWrapper" id="searchWrapper">
+            <input type="search" name="q" class="searchInput" id="searchInput" placeholder="Search..."
+              autocomplete="off" />
+            <button type="submit" class="searchButton">
+              <img src="icons/searchIcon.png" alt="search icon" class="searchIcon" id="searchIcon" />
+            </button>
+          </div>
+          <ul id="suggestions" class="suggestions"></ul>
+        </form>
 
         <button class="newFileButton">
           Add New Wallpaper

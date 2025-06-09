@@ -4,7 +4,10 @@
   "name": "Firefox Wallpaper",
   "version": "1.0",
   "description": "Custom new tab with wallpaper support.",
-  "permissions": ["storage"],
+  "permissions": [
+    "storage",
+    "https://suggestqueries.google.com/"
+  ],
   "chrome_url_overrides": {
     "newtab": "newtab.html"
   }
