@@ -95,22 +95,26 @@ body {
 .suggestions>li {
   font-family: 'Google Sans', sans-serif;
   cursor: pointer;
-  margin-left: 10px;
-  margin-right: 10px;
   padding-top: 1px;
   padding-bottom: 1px;
   border-radius: 5px;
 }
 
+.suggestions>li:hover,
+.suggestions>li>div>.selected {
+  background-color: #f0f0f0;
+}
+
+.suggestions>li>div {
+  margin-left: 10px;
+  margin-right: 10px;
+}
 
 .searchWrapper.withSuggestions+.suggestions {
   /* only turned on when there are active suggestions fetched from api */
   padding-bottom: 10px;
 }
 
-.suggestions>li:hover {
-  background-color: #f0f0f0;
-}
 
 
 /* file management */

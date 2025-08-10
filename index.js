@@ -31,13 +31,15 @@ searchInput.addEventListener('input', (e) => {
 			ul.innerHTML = '';
 			for (let i = 0; i < suggestions.length; i++) {
 				const li = document.createElement('li');
+				const divFromLi = document.createElement('div');
 
-				li.addEventListener('mousedown', () => {
+				divFromLi.addEventListener('mousedown', () => {
 					searchInput.value = suggestions[i];
 					searchInput.form.submit();
 				});
 
-				li.textContent = suggestions[i];
+				divFromLi.textContent = suggestions[i];
+				li.appendChild(divFromLi);
 				ul.appendChild(li);
 			}
 		}
@@ -49,6 +51,17 @@ searchInput.addEventListener('input', (e) => {
 // handle suggestions display
 searchInput.addEventListener('focus', () => {
 	document.getElementById('suggestions').style.display = 'block';
+
+	// add keyboard navigation
+	searchInput.addEventListener('keydown', (e) => {
+		index = -1;
+		if (e.key == 'ArrowDown') {
+		}
+		if (e.key == 'ArrowUp') {
+		}
+		if (e.key == 'Enter') {
+		}
+	});
 
 	if (!Array.isArray(suggestions) || suggestions.length === 0) return;
 	searchWrapper.classList.add('withSuggestions');
