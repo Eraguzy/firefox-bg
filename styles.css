@@ -6,7 +6,7 @@ body {
 
 
 /* main containers */
-.root {
+.middleWrapperSpacing {
   height: calc(100vh - 15vh);
   padding-top: 10vh;
   box-sizing: border-box;
@@ -44,8 +44,8 @@ body {
   overflow: hidden;
 }
 
+/* only turned on when there are active suggestions fetched from api */
 .searchWrapper.withSuggestions {
-  /* only turned on when there are active suggestions fetched from api */
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
@@ -117,8 +117,8 @@ body {
 
 
 
-/* file management */
-.newFileButton {
+/* file management and sidebar */
+.sidebarToggle {
   width: 160px;
   padding: 10px 20px;
   font-size: 10px;
@@ -130,10 +130,26 @@ body {
   width: 40px;
   background: url("chrome://global/skin/icons/edit-outline.svg") no-repeat center white;
   transition: opacity 0.3s ease;
+  z-index: 2;
 }
 
-.newFileButton:hover {
+.sidebarToggle:hover {
   opacity: 0.9;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -200px;
+  width: 200px;
+  height: 100%;
+  background-color: black;
+  transition: all 0.3s ease-out;
+  z-index: 1;
+}
+
+.sidebar.active {
+  right: 0;
 }
 
 
