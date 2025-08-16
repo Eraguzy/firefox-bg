@@ -101,8 +101,8 @@ body {
 }
 
 .suggestions>li:hover,
-.suggestions>li>div>.selected {
-  background-color: #f0f0f0;
+.suggestions>li.selected {
+  background-color: white;
 }
 
 .suggestions>li>div {
