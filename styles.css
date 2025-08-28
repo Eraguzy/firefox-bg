@@ -1,13 +1,26 @@
 body {
   background-color: black;
-  transition: background-color 0.6s ease;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#backgroundFade {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
 }
 
 
 
 /* main containers */
 .middleWrapperSpacing {
-  height: calc(100vh - 15vh);
   padding-top: 10vh;
   box-sizing: border-box;
   display: flex;
@@ -124,6 +137,7 @@ body {
   z-index: 2;
   width: 160px;
   padding: 10px 20px;
+  margin: 2px;
   height: 40px;
   width: 40px;
   font-size: 10px;
@@ -172,6 +186,23 @@ body {
   height: 100px;
   border-radius: 10px;
   cursor: pointer;
+}
+
+.wallpaperItem {
+  transition: all 0.3s ease;
+}
+
+.wallpaperItem,
+body {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.wallpaperItem:hover {
+  transform: scale(0.98);
+  filter: brightness(0.8);
+  /* Assombrit légèrement l'image au survol */
 }
 
 .addWallpaper {

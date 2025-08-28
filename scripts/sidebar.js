@@ -28,17 +28,25 @@ function applyWallpaper() { // read the index currently stored and apply the cor
 	browser.storage.local.get(["wallpapers", "currentWallpaperIndex"]).then(result => {
 		const wallpapers = result.wallpapers || [];
 		const index = result.currentWallpaperIndex;
+		const bg = document.getElementById("backgroundFade");
 
 		if (wallpapers.length > 0 && index >= 0 && index < wallpapers.length) {
-			document.body.style.backgroundImage = `url(${wallpapers[index]})`;
-		} else {
-			alert("error")
+			bg.style.opacity = 0;
+			setTimeout(() => {
+				bg.style.backgroundImage = `url(${wallpapers[index]})`;
+				bg.style.opacity = 1;
+			}, 500); // you need to wait until transition to zero is done before changing back to 1
 		}
 	});
 }
 
 function updateWallpapersList() { // update the list of wallpapers in the sidebar
 	let wallpapersList = document.getElementById("wallpapersList");
+	Array.from(wallpapersList.children).forEach(e => {
+		if (e.classList.contains("wallpaperItem")) {
+			wallpapersList.removeChild(e);
+		}
+	});
 
 	browser.storage.local.get("wallpapers").then(result => {
 		const wallpapers = result.wallpapers || [];
@@ -83,13 +91,15 @@ addWallpaper.addEventListener("click", () => {
 				wallpapers.push(dataURL);
 
 				currentWallpaperIndex = wallpapers.length - 1; // set current index to the newly added wallpaper
-				browser.storage.local.set({ wallpapers, currentWallpaperIndex });
+				browser.storage.local.set({ wallpapers, currentWallpaperIndex }).then(() => {
+					applyWallpaper();
+					updateWallpapersList();
+				});
+				// browser.storage.local.clear()
 			});
 
-			applyWallpaper();
-			updateWallpapersList();
 		};
-		reader.readAsDataURL(userInput);
+		reader.readAsDataURL(userInput)
 	});
 	fileInput.click(); 	// simulate file input click to open file dialog
 });
