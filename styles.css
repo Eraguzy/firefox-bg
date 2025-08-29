@@ -81,6 +81,7 @@ body {
   border: none;
   width: 40px;
   height: 40px;
+  padding-right: 10px;
   cursor: pointer;
   transform: scale(1);
   transition: transform 0.3s ease;
@@ -135,7 +136,6 @@ body {
 /* file management and sidebar */
 .sidebarToggle {
   z-index: 2;
-  width: 160px;
   padding: 10px 20px;
   margin: 2px;
   height: 40px;
@@ -166,7 +166,7 @@ body {
   padding: 60px 15px 10px 15px;
   color: white;
   background-color: black;
-  transition: all 0.3s ease-out;
+  transition: all 0.4s ease-in-out;
 }
 
 .sidebar.active {
@@ -189,6 +189,9 @@ body {
 }
 
 .wallpaperItem {
+  display: flex;
+  justify-content: end;
+  align-items: start;
   transition: all 0.3s ease;
 }
 
@@ -200,9 +203,32 @@ body {
 }
 
 .wallpaperItem:hover {
-  transform: scale(0.98);
-  filter: brightness(0.8);
-  /* Assombrit légèrement l'image au survol */
+  /* filter: brightness(0.8); */
+  scale: 0.99;
+}
+
+.wallpaperDeleteButton {
+  padding: 5px;
+  height: 30px;
+  width: 30px;
+  font-size: 10px;
+  cursor: pointer;
+  border-radius: 8px;
+  opacity: 0.8;
+  scale: 0.7;
+  background: url("icons/trashIcon.png") no-repeat center white;
+  /* idk how but this is necessary to avoid the parent to force the bg*/
+  background-size: 55%;
+  transition: all 0.3s ease;
+}
+
+/* Annule le filter sur le bouton delete quand le parent est hover */
+.wallpaperItem:hover .wallpaperDeleteButton {
+  filter: none !important;
+}
+
+.wallpaperDeleteButton:hover {
+  opacity: 1;
 }
 
 .addWallpaper {

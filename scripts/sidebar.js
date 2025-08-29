@@ -61,6 +61,11 @@ function updateWallpapersList() { // update the list of wallpapers in the sideba
 				applyWallpaper();
 			});
 
+			// create delete button
+			let deleteButton = document.createElement("div");
+			deleteButton.className = "wallpaperDeleteButton";
+			wallpaperItem.appendChild(deleteButton);
+
 			wallpapersList.appendChild(wallpaperItem);
 		});
 	});
@@ -95,7 +100,6 @@ addWallpaper.addEventListener("click", () => {
 					applyWallpaper();
 					updateWallpapersList();
 				});
-				// browser.storage.local.clear()
 			});
 
 		};
