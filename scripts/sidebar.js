@@ -35,7 +35,13 @@ function applyWallpaper() { // read the index currently stored and apply the cor
 			setTimeout(() => {
 				bg.style.backgroundImage = `url(${wallpapers[index]})`;
 				bg.style.opacity = 1;
-			}, 500); // you need to wait until transition to zero is done before changing back to 1
+			}, 400); // you need to wait until transition to zero is done before changing back to 1
+		} else { // no wallpaper case
+			bg.style.opacity = 0;
+			setTimeout(() => {
+				bg.style.backgroundImage = `none`;
+				bg.style.opacity = 1;
+			}, 400);
 		}
 	});
 }
@@ -64,10 +70,29 @@ function updateWallpapersList() { // update the list of wallpapers in the sideba
 			// create delete button
 			let deleteButton = document.createElement("div");
 			deleteButton.className = "wallpaperDeleteButton";
+			deleteButton.addEventListener("click", () => { // click to set as current wallpaper
+				deleteWallpaper(wallpapers.indexOf(wallpaper)).then(() => {
+					updateWallpapersList();
+					applyWallpaper();
+				});
+			});
 			wallpaperItem.appendChild(deleteButton);
 
 			wallpapersList.appendChild(wallpaperItem);
 		});
+	});
+}
+
+function deleteWallpaper(index) { // delete wallpaper at given index
+	return browser.storage.local.get(["wallpapers", "currentWallpaperIndex"]).then(result => { // return the promise for .then()
+		let wallpapers = result.wallpapers || [];
+		let currentIndex = result.currentWallpaperIndex;
+		if (index < 0 || index >= wallpapers.length) return; // invalid index
+
+		wallpapers.splice(index, 1); // remove wallpaper
+		if (currentIndex === index) currentIndex = -1; // if the deleted wallpaper was the current one, set no wallpaper
+
+		browser.storage.local.set({ wallpapers, currentWallpaperIndex: currentIndex });
 	});
 }
 
@@ -82,10 +107,10 @@ addWallpaper.addEventListener("click", () => {
 	fileInput.addEventListener("change", () => {
 		const userInput = fileInput.files[0];
 		if (!userInput) return;
-		if (userInput.size > 5 * 1024 * 1024) { // 5MB in bytes
-			alert("File is too large. Maximum allowed size is 5MB.");
-			return;
-		}
+		// if (userInput.size > 5 * 1024 * 1024) { // 5MB in bytes
+		// 	alert("File is too large, maximum allowed size is 5MB");
+		// 	return;
+		// }
 
 		const reader = new FileReader();
 		reader.onload = (e) => {

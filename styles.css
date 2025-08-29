@@ -5,16 +5,18 @@ body {
 }
 
 #backgroundFade {
+  /* background image */
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
+  z-index: -1;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   opacity: 0;
-  transition: opacity 0.5s ease-out;
+  transition: opacity 0.4s ease-out;
 }
 
 
@@ -165,7 +167,8 @@ body {
   height: 100%;
   padding: 60px 15px 10px 15px;
   color: white;
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(15px);
   transition: all 0.4s ease-in-out;
 }
 
@@ -217,8 +220,8 @@ body {
   opacity: 0.8;
   scale: 0.7;
   background: url("icons/trashIcon.png") no-repeat center white;
-  /* idk how but this is necessary to avoid the parent to force the bg*/
   background-size: 55%;
+  /* idk how but this is necessary to avoid the parent to force the bg*/
   transition: all 0.3s ease;
 }
 
