@@ -1,12 +1,30 @@
 // variables storaged in browser's local storage browser.storage.local :
 // wallpapers: array of data URLs of wallpapers
 // currentWallpaperIndex: index of the currently applied wallpaper in the wallpapers array
+// isFirefoxTitleWhite : bool indicating if the Firefox title is visible
 
 
 
 // code executed when opening the new tab page
 applyWallpaper(); // apply wallpaper when opening the page
 updateWallpapersList(); // populate the list of wallpapers in the sidebar
+browser.storage.local.get("isFirefoxTitleWhite").then(result => { // set the initial state of the firefox title switch
+	let firefoxTitleSwitch = document.getElementById("firefoxTitleColorSwitch");
+	let firefoxWordmark = document.getElementById("firefoxWordmark");
+	let logoWrapper = document.getElementById("logoWrapper");
+
+	setTimeout(() => { // fade in the logo at startup
+		logoWrapper.style.opacity = "1";
+	}, 400);
+
+	if (result.isFirefoxTitleWhite == true) {
+		firefoxWordmark.style.filter = "brightness(0) invert(1)";
+		firefoxTitleSwitch.checked = true;
+	} else {
+		firefoxWordmark.style.filter = "brightness(0) invert(0)";
+		firefoxTitleSwitch.checked = false;
+	}
+});
 
 // handle sidebar
 let sidebarToggle = document.getElementById("sidebarToggle"); // button
@@ -21,6 +39,9 @@ document.addEventListener("click", (e) => { // click away = close sidebar
 		sidebar.classList.remove("active");
 	}
 });
+
+
+
 
 //wallpaper handling
 // misc
@@ -131,4 +152,15 @@ addWallpaper.addEventListener("click", () => {
 		reader.readAsDataURL(userInput)
 	});
 	fileInput.click(); 	// simulate file input click to open file dialog
+});
+
+
+
+// switches
+let firefoxTitleSwitch = document.getElementById("firefoxTitleColorSwitch");
+firefoxTitleSwitch.addEventListener("change", () => {
+	let firefoxWordmark = document.getElementById("firefoxWordmark");
+
+	browser.storage.local.set({ isFirefoxTitleWhite: firefoxTitleSwitch.checked });
+	firefoxWordmark.style.filter = firefoxTitleSwitch.checked ? "brightness(0) invert(1)" : "brightness(0) invert(0)";
 });
