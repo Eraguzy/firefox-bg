@@ -1,9 +1,9 @@
 {
   "manifest_version": 2,
-  "content_security_policy": "script-src 'self' https://unpkg.com; object-src 'self'",
-  "name": "Firefox Wallpaper",
+  "content_security_policy": "script-src 'self'; object-src 'self'",
+  "name": "New Custom Tab",
   "version": "1.0",
-  "description": "Custom new tab with wallpaper support.",
+  "description": "Custom new tab allowing to store and select wallpapers",
   "permissions": [
     "storage",
     "https://suggestqueries.google.com/"
