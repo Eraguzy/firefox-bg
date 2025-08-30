@@ -8,6 +8,7 @@
 // code executed when opening the new tab page
 applyWallpaper(); // apply wallpaper when opening the page
 updateWallpapersList(); // populate the list of wallpapers in the sidebar
+
 browser.storage.local.get("isFirefoxTitleWhite").then(result => { // set the initial state of the firefox title switch
 	let firefoxTitleSwitch = document.getElementById("firefoxTitleColorSwitch");
 	let firefoxWordmark = document.getElementById("firefoxWordmark");
@@ -75,16 +76,18 @@ function updateWallpapersList() { // update the list of wallpapers in the sideba
 		}
 	});
 
-	browser.storage.local.get("wallpapers").then(result => {
+	browser.storage.local.get(["wallpapers", "currentWallpaperIndex"]).then(result => {
 		const wallpapers = result.wallpapers || [];
 
-		wallpapers.forEach((wallpaper) => {
+		wallpapers.forEach((wallpaper, i) => {
 			let wallpaperItem = document.createElement("div");
 			wallpaperItem.className = "wallpaperItem"; // styled in css
 			wallpaperItem.style.backgroundImage = `url(${wallpaper})`; // thumbnail
 
 			wallpaperItem.addEventListener("click", () => { // click to set as current wallpaper
-				browser.storage.local.set({ currentWallpaperIndex: wallpapers.indexOf(wallpaper) });
+				browser.storage.local.set({ currentWallpaperIndex: i }).then(() => {
+					applyBorderToSelectedWallpaper();
+				});
 				applyWallpaper();
 			});
 
@@ -92,14 +95,16 @@ function updateWallpapersList() { // update the list of wallpapers in the sideba
 			let deleteButton = document.createElement("div");
 			deleteButton.className = "wallpaperDeleteButton";
 			deleteButton.addEventListener("click", () => { // click to set as current wallpaper
-				deleteWallpaper(wallpapers.indexOf(wallpaper)).then(() => {
+				deleteWallpaper(i).then(() => {
 					updateWallpapersList();
 					applyWallpaper();
+					applyBorderToSelectedWallpaper();
 				});
 			});
-			wallpaperItem.appendChild(deleteButton);
 
+			wallpaperItem.appendChild(deleteButton);
 			wallpapersList.appendChild(wallpaperItem);
+			applyBorderToSelectedWallpaper();
 		});
 	});
 }
@@ -114,6 +119,22 @@ function deleteWallpaper(index) { // delete wallpaper at given index
 		if (currentIndex === index) currentIndex = -1; // if the deleted wallpaper was the current one, set no wallpaper
 
 		browser.storage.local.set({ wallpapers, currentWallpaperIndex: currentIndex });
+	});
+}
+
+function applyBorderToSelectedWallpaper() {
+	browser.storage.local.get("currentWallpaperIndex").then(result => {
+		let wallpapersList = document.getElementById("wallpapersList");
+
+		// start from 1 to skip the addwallpaper button
+		for (let i = 1; i < wallpapersList.children.length; i++) {
+			console.log(result.currentWallpaperIndex, i);
+			if (result.currentWallpaperIndex === i - 1) { // i -1 because of the add wallpaper button
+				wallpapersList.children[i].style.border = "2px solid white";
+			} else {
+				wallpapersList.children[i].style.border = "none";
+			}
+		}
 	});
 }
 

@@ -252,6 +252,7 @@ body {
   display: flex;
   justify-content: end;
   align-items: start;
+  box-sizing: border-box;
   transition: all 0.3s ease;
 }
 
