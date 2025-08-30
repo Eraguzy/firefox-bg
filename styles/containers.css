@@ -1,0 +1,77 @@
+body {
+  background-color: black;
+}
+
+#backgroundFade {
+  /* background image */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 0.4s ease-out;
+}
+
+
+
+/* main containers */
+.middleWrapperSpacing {
+  padding-top: 10vh;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+}
+
+.topWrapper {
+  font-family: 'Google Sans', sans-serif;
+  display: flex;
+  width: 100%;
+  justify-content: end;
+}
+
+.middleWrapper {
+  font-family: 'Google Sans', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 15px;
+}
+
+
+
+/* firefox logos */
+.logoWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  gap: 25px;
+  transform: scale(0.6);
+  transition: opacity 0.3s ease-in;
+}
+
+.firefoxLogo {
+  background: url("chrome://branding/content/about-logo.png") no-repeat center;
+  /* doesnt crop when changing the px size */
+  background-size: contain;
+  height: 100px;
+  width: 100px;
+}
+
+.firefoxWordmark {
+  background: url("chrome://branding/content/firefox-wordmark.svg") no-repeat center center;
+  background-size: contain;
+  filter: brightness(0) invert(1);
+  width: 172px;
+  height: 42px;
+  transition: filter 0.3s ease-in;
+}

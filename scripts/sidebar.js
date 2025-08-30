@@ -128,7 +128,6 @@ function applyBorderToSelectedWallpaper() {
 
 		// start from 1 to skip the addwallpaper button
 		for (let i = 1; i < wallpapersList.children.length; i++) {
-			console.log(result.currentWallpaperIndex, i);
 			if (result.currentWallpaperIndex === i - 1) { // i -1 because of the add wallpaper button
 				wallpapersList.children[i].style.border = "2px solid white";
 			} else {
