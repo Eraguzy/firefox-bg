@@ -1,12 +1,16 @@
 {
-  "manifest_version": 2,
-  "content_security_policy": "script-src 'self'; object-src 'self'",
-  "name": "New Custom Tab",
+  "manifest_version": 3,
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' blob: 'wasm-unsafe-eval'; worker-src 'self' blob:; object-src 'self';"
+  },
+  "name": "Glossy Custom Tab",
   "version": "1.0",
   "description": "Custom new tab allowing to store and select wallpapers",
   "permissions": [
-    "storage",
-    "https://suggestqueries.google.com/"
+    "storage"
+  ],
+  "host_permissions": [
+    "https://suggestqueries.google.com/*"
   ],
   "chrome_url_overrides": {
     "newtab": "newtab.html"

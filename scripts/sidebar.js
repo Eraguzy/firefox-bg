@@ -4,7 +4,6 @@
 // isFirefoxTitleWhite : bool indicating if the Firefox title is visible
 
 
-
 // code executed when opening the new tab page
 applyWallpaper(); // apply wallpaper when opening the page
 updateWallpapersList(); // populate the list of wallpapers in the sidebar
@@ -27,6 +26,8 @@ browser.storage.local.get("isFirefoxTitleWhite").then(result => { // set the ini
 	}
 });
 
+
+
 // handle sidebar
 let sidebarToggle = document.getElementById("sidebarToggle"); // button
 let sidebar = document.getElementById("sidebar"); // sidebar element
@@ -41,33 +42,6 @@ document.addEventListener("click", (e) => { // click away = close sidebar
 	}
 });
 
-
-
-
-//wallpaper handling
-// misc
-function applyWallpaper() { // read the index currently stored and apply the corresponding wallpaper
-	browser.storage.local.get(["wallpapers", "currentWallpaperIndex"]).then(result => {
-		const wallpapers = result.wallpapers || [];
-		const index = result.currentWallpaperIndex;
-		const bg = document.getElementById("backgroundFade");
-
-		if (wallpapers.length > 0 && index >= 0 && index < wallpapers.length) {
-			bg.style.opacity = 0;
-			setTimeout(() => {
-				bg.style.backgroundImage = `url(${wallpapers[index]})`;
-				bg.style.opacity = 1;
-			}, 400); // you need to wait until transition to zero is done before changing back to 1
-		} else { // no wallpaper case
-			bg.style.opacity = 0;
-			setTimeout(() => {
-				bg.style.backgroundImage = `none`;
-				bg.style.opacity = 1;
-			}, 400);
-		}
-	});
-}
-
 function updateWallpapersList() { // update the list of wallpapers in the sidebar
 	let wallpapersList = document.getElementById("wallpapersList");
 	Array.from(wallpapersList.children).forEach(e => {
@@ -80,11 +54,26 @@ function updateWallpapersList() { // update the list of wallpapers in the sideba
 		const wallpapers = result.wallpapers || [];
 
 		wallpapers.forEach((wallpaper, i) => {
-			let wallpaperItem = document.createElement("div");
-			wallpaperItem.className = "wallpaperItem"; // styled in css
-			wallpaperItem.style.backgroundImage = `url(${wallpaper})`; // thumbnail
 
-			wallpaperItem.addEventListener("click", () => { // click to set as current wallpaper
+			let wallpaperItem = document.createElement("div");
+			wallpaperItem.className = "wallpaperItem";
+			let itemBg = null;
+
+			if (wallpaper.startsWith("data:image")) {
+				itemBg = document.createElement("img");
+			} else if (wallpaper.startsWith("data:video")) {
+				itemBg = document.createElement("video");
+				itemBg.autoplay = true;
+				itemBg.loop = true;
+				itemBg.muted = true;
+			} else {
+				return;
+			}
+
+			itemBg.className = "itemBg";
+			itemBg.src = wallpaper; // thumbnail
+
+			itemBg.addEventListener("click", () => { // click to set as current wallpaper
 				browser.storage.local.set({ currentWallpaperIndex: i }).then(() => {
 					applyBorderToSelectedWallpaper();
 				});
@@ -103,22 +92,10 @@ function updateWallpapersList() { // update the list of wallpapers in the sideba
 			});
 
 			wallpaperItem.appendChild(deleteButton);
+			wallpaperItem.appendChild(itemBg);
 			wallpapersList.appendChild(wallpaperItem);
 			applyBorderToSelectedWallpaper();
 		});
-	});
-}
-
-function deleteWallpaper(index) { // delete wallpaper at given index
-	return browser.storage.local.get(["wallpapers", "currentWallpaperIndex"]).then(result => { // return the promise for .then()
-		let wallpapers = result.wallpapers || [];
-		let currentIndex = result.currentWallpaperIndex;
-		if (index < 0 || index >= wallpapers.length) return; // invalid index
-
-		wallpapers.splice(index, 1); // remove wallpaper
-		if (currentIndex === index) currentIndex = -1; // if the deleted wallpaper was the current one, set no wallpaper
-
-		browser.storage.local.set({ wallpapers, currentWallpaperIndex: currentIndex });
 	});
 }
 
@@ -137,13 +114,74 @@ function applyBorderToSelectedWallpaper() {
 	});
 }
 
-// add wallpaper
+
+
+//wallpaper handling
+function applyWallpaper() { // read the index currently stored and apply the corresponding wallpaper
+	browser.storage.local.get(["wallpapers", "currentWallpaperIndex"]).then(result => {
+		const wallpapers = result.wallpapers || [];
+		const index = result.currentWallpaperIndex;
+
+		const prevBg = document.getElementById("backgroundFade"); // remove previous background if there was one
+		if (prevBg) prevBg.parentNode.removeChild(prevBg);
+
+		if (wallpapers.length > 0 && index >= 0 && index < wallpapers.length) {
+
+			if (wallpapers[index].startsWith("data:image")) {
+				const bg = document.createElement("img");
+				bg.style.opacity = 0;
+				bg.id = "backgroundFade";
+				document.body.appendChild(bg);
+				setTimeout(() => {
+					bg.src = wallpapers[index];
+					bg.style.opacity = 1;
+				}, 400); // you need to wait until transition to zero is done before changing back to 1
+
+			} else if (wallpapers[index].startsWith("data:video")) {
+				const bg = document.createElement("video");
+				bg.style.opacity = 0;
+				bg.id = "backgroundFade";
+				bg.autoplay = true;
+				bg.loop = true;
+				bg.muted = true;
+				bg.src = wallpapers[index];
+				document.body.appendChild(bg);
+				setTimeout(() => {
+					bg.src = wallpapers[index];
+					bg.style.opacity = 1;
+				}, 400);
+
+			} else { // no wallpaper case
+				setTimeout(() => {
+					bg.src = "";
+					bg.style.opacity = 1;
+				}, 400);
+				return;
+			}
+		}
+	});
+}
+
+function deleteWallpaper(index) { // delete wallpaper at given index in the storage
+	return browser.storage.local.get(["wallpapers", "currentWallpaperIndex"]).then(result => { // return the promise for .then()
+		let wallpapers = result.wallpapers || [];
+		let currentIndex = result.currentWallpaperIndex;
+		if (index < 0 || index >= wallpapers.length) return; // invalid index
+
+		wallpapers.splice(index, 1); // remove wallpaper
+		if (currentIndex === index) currentIndex = -1; // if the deleted wallpaper was the current one, set no wallpaper
+
+		browser.storage.local.set({ wallpapers, currentWallpaperIndex: currentIndex });
+	});
+}
+
+// add wallpaper button
 let addWallpaper = document.getElementById("addWallpaper");
 
 addWallpaper.addEventListener("click", () => {
 	const fileInput = document.createElement("input");
 	fileInput.type = "file";
-	fileInput.accept = "image/*";
+	fileInput.accept = "image/*,video/*";
 
 	fileInput.addEventListener("change", () => {
 		const userInput = fileInput.files[0];
@@ -167,9 +205,9 @@ addWallpaper.addEventListener("click", () => {
 					updateWallpapersList();
 				});
 			});
-
 		};
-		reader.readAsDataURL(userInput)
+
+		reader.readAsDataURL(userInput);
 	});
 	fileInput.click(); 	// simulate file input click to open file dialog
 });
