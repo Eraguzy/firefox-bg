@@ -4,6 +4,8 @@ This is an extension to override Firefox's new tab page and allow you to store b
 
 Find it here : https://addons.mozilla.org/fr/firefox/addon/glossy-custom-tab/
 
+Medias are stored in the browser's local storage.
+
 ## Limitations
 
 ### GIF loop interrupting

@@ -9,7 +9,10 @@ code sample usage:
     </label>
 */
 
-
+.switchContainer {
+    display: flex;
+    gap: 10px;
+}
 
 .switch {
     position: relative;

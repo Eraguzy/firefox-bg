@@ -42,10 +42,23 @@
 
 .sidebarFooter {
     display: flex;
-    justify-content: right;
-    align-items: center;
-    gap: 5px;
+    flex-direction: column;
+    align-items: end;
+    gap: 10px;
     font-size: 10px;
+}
+
+.sidebarLink {
+    color: white;
+    text-decoration: none;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+.sidebarLink:hover {
+    color: white;
+    text-decoration: underline;
+    opacity: 1;
 }
 
 
